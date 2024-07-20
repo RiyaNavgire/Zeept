@@ -21,7 +21,7 @@ def trigger_chain(question,chain):
     try:
         
         langchain.debug=True
-        llm_response = chain(question)   
+        llm_response = chain.invoke({"input":question})   
         print(llm_response['answer'])
         print('\n\nSources:')
         for source in llm_response["source_documents"]:

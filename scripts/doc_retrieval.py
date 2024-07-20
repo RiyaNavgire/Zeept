@@ -32,7 +32,7 @@ def doc_retrieve():
     
     
     #********* Hugging Face Models using API Key ********   
-    HF_key = "hf_key"
+    HF_key = "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"
     model_id = "google/flan-t5-base" # "stabilityai/stablelm-tuned-alpha-3b"    
     llm = HuggingFaceHub(huggingfacehub_api_token=HF_key,repo_id=model_id, model_kwargs={"temperature":1, "max_length":500})
     prompt_template = """
@@ -50,17 +50,17 @@ def doc_retrieve():
     
     
     
-    file_path =  "D://MLProject//ZeePT//data//hugging_docs//vector_index.pkl"
-    if os.path.exists(file_path):
-        with open(file_path, "rb") as f:
-            vectorIndex = pickle.load(f)
+    # file_path =  "D://MLProject//ZeePT//data//hugging_docs//vector_index.pkl"
+    # if os.path.exists(file_path):
+    #     with open(file_path, "rb") as f:
+    #         vectorIndex = pickle.load(f)
     
     
     # for doc_id, document in vectorIndex.docstore.items():
     #   print(f"ID: {doc_id}, Metadata: {document.metadata}")
     # #,"document_prompt": document_prompt
     prompt = PromptTemplate(template = prompt_template, input_variables = ["context", "question"])
-    memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
+    #memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
     #chain = ConversationalRetrievalChain.from_llm(llm=llm,retriever=vectorIndex.as_retriever(search_kwargs={"k": 2}),memory = memory)  #ensure vectorIndex object type is FAISS
     chain = load_qa_chain(llm=llm,prompt = prompt)  #ensure vectorIndex object type is FAISS
     print(chain)

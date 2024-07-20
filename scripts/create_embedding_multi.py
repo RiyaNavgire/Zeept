@@ -1,9 +1,8 @@
 from langchain import OpenAI
 from langchain.embeddings import OpenAIEmbeddings , HuggingFaceInferenceAPIEmbeddings,HuggingFaceInstructEmbeddings,HuggingFaceHubEmbeddings
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain.embeddings.vertexai import VertexAIEmbeddings
 import google.generativeai as genai
 from dotenv import load_dotenv
+from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 #from gensim.models import Doc2Vec
 from langchain.vectorstores import FAISS
 from sentence_transformers import SentenceTransformer
@@ -26,7 +25,7 @@ from langchain import HuggingFaceHub
 #os.getenv("GOOGLE_API_KEY")
 #genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-HF_key = "hf_key"	
+HF_key = ""	
 openAI_key = "nn"
 
 
@@ -39,19 +38,20 @@ def select_embeddings_model(pdf_chunks):
     the name of the embedding model."""
     persist_directory = 'D://MLProject//ZeePT//chromDB'
     
-    #embeddings = HuggingFaceHubEmbeddings(huggingfacehub_api_token=HF_key)    
+    
     embeddings = HuggingFaceInstructEmbeddings(
             #api_key=HF_key, 
             model_name="hkunlp/instructor-base",  #https://huggingface.co/hkunlp
             #HuggingFaceInferenceAPIEmbeddings #model_name="sentence-transformers/all-MiniLM-L6-v2",
             
         )
-    #embeddings = OpenAIEmbeddings(openai_api_key=openAI_key)
     
     for chunks in pdf_chunks:
          vectordb = Chroma.from_documents(documents=chunks, 
                                 embedding=embeddings,
                                   persist_directory=persist_directory)
+         
+ 
         #This also works - vectordb = FAISS.from_documents(documents=chunks, embedding=embeddings) 
     vectordb.persist()
     

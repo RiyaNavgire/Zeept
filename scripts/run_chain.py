@@ -8,13 +8,13 @@ import os
 
 
 def trigger_chain(query,chain):
-    # query = "what are the main features of punch iCNG?"
+    
     embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base")
     
     
     new_db = FAISS.load_local("D://MLProject//ZeePT//data//faiss_index_hugging//", embeddings)
     
-    docs = new_db.similarity_search(query)
+    docs = new_db.similarity_search(query)  #Similarity matches question vs embeddings created using embedding model which was used to create emebdding
     try:
         
         langchain.debug=True
@@ -23,4 +23,7 @@ def trigger_chain(query,chain):
         print("Answers printed successfully")
     finally: print ("Code completed successfully!")
     return response
+
+
+
 
